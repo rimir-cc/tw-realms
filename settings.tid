@@ -1,0 +1,36 @@
+created: 20260305110707531
+modified: 20260305110707531
+title: $:/plugins/rimir/realms/settings
+type: text/vnd.tiddlywiki
+
+\define render-realm(realmName)
+<$let
+  isActive={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[active]] }}}
+  realmDesc={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[description]] }}}
+  realmFilter={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[filter]] }}}
+  statusText={{{ [<isActive>match[true]then[hidden]else[visible]] }}}
+  buttonClass={{{ [<isActive>match[true]then[tc-btn-invisible rimir-realm-btn rimir-realm-hidden]else[tc-btn-invisible rimir-realm-btn rimir-realm-visible]] }}}
+>
+<div class="rimir-realm-row">
+<$button class=<<buttonClass>> actions="<$action-realm-toggle realm='$realmName$'/>">
+  <$reveal type="match" default=<<isActive>> text="true" tag="span">&#9745; <del>''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></del></$reveal>
+  <$reveal type="nomatch" default=<<isActive>> text="true" tag="span">&#9744; ''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></$reveal>
+  //(<$text text=<<statusText>>/>)//
+</$button>
+</div>
+</$let>
+\end
+
+All tiddlers are visible by default. Tick a realm to subtract its tiddlers. Changes take effect after a browser reload (non-system/non-`module-type`-tiddlers will be automatically refreshed after few seconds, if filesystem-watcher is also installed and active).
+
+<div class="rimir-realm-row rimir-realm-catchall">&#9745; ''all'' — everything not in a realm below //(always visible)//</div>
+
+<$list filter="[[$:/temp/rimir/realms]get[text]jsonindexes[]]" variable="realmName">
+<$macrocall $name="render-realm" realmName=<<realmName>>/>
+</$list>
+
+<$reveal state="$:/temp/rimir/realms-changed" type="match" text="yes" tag="div" class="rr-notice rr-notice-warning">
+
+Realm settings changed. <$button class="tc-btn-big-green" message="tm-browser-refresh">Reload now</$button>
+
+</$reveal>

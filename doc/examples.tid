@@ -1,0 +1,87 @@
+created: 20260305110707528
+modified: 20260305110707528
+rdt.order: 4
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: Examples
+title: $:/plugins/rimir/realms/doc/examples
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Filter recipes
+
+Example `realms.json` filters:
+
+* By title prefix: `[prefix[private/]]`
+* By tag: `[tag[draft]]`
+* By field value: `[field:status[archived]]`
+* By regex: `[regexp:title[^(tmp|temp)-]]`
+* Combined: `[prefix[work/]tag[draft]]`
+
+Multiple independent realms in `realms.json`:
+
+```json
+{
+  "drafts": {
+    "filter": "[tag[draft]]",
+    "description": "Draft tiddlers",
+    "active": true
+  },
+  "archived": {
+    "filter": "[field:status[archived]]",
+    "description": "Archived tiddlers",
+    "active": false
+  },
+  "private": {
+    "filter": "[prefix[private/]]",
+    "description": "Private tiddlers",
+    "active": true
+  }
+}
+```
+
+!! API usage
+
+Read all realms:
+
+```
+curl http://localhost:8080/api/realms
+```
+
+Toggle a realm off:
+
+```
+curl -X PUT \
+  -H "X-Requested-With: TiddlyWiki" \
+  -H "Content-Type: application/json" \
+  -d '{"drafts": {"active": false}}' \
+  http://localhost:8080/api/realms
+```
+
+Toggle a realm on:
+
+```
+curl -X PUT \
+  -H "X-Requested-With: TiddlyWiki" \
+  -H "Content-Type: application/json" \
+  -d '{"archived": {"active": true}}' \
+  http://localhost:8080/api/realms
+```
+
+!! Behavior notes
+
+* All tiddlers visible by default — ticking a realm subtracts its tiddlers
+* Overlap: a tiddler is hidden if ANY active (ticked) realm's filter matches it
+* System tiddlers: require full reload to appear/disappear in browser
+* New tiddlers: subject to realm filters immediately
+* No restart needed for config changes
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="warning">
+<$fill $name="body">If a tiddler matches multiple active (ticked) realms, it will be hidden. Realms are additive in their exclusion.</$fill>
+</$transclude>
+
+</$fill>
+</$transclude>

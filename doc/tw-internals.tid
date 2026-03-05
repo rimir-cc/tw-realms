@@ -1,0 +1,44 @@
+created: 20260305110707529
+modified: 20260305110707529
+rdt.order: 7
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: TW Internals
+title: $:/plugins/rimir/realms/doc/tw-internals
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! th-server-command-post-start hook
+
+TW fires this hook after the `--listen` command starts the HTTP server. The realms plugin registers a callback that iterates `server.routes` and replaces the skinny-list and fat-tiddler routes with realm-aware versions. This is the only reliable point to intercept routes after the server is running.
+
+!! exports.before = ["commands"]
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="danger">
+<$fill $name="body">Without `exports.before = ["commands"]`, the startup module runs after `--listen` has already fired. The hook registers too late and routes are never replaced. This is the most common cause of "realms not working".</$fill>
+</$transclude>
+
+!! Route replacement at runtime
+
+TW stores routes in `server.routes` as an array. The plugin finds the skinny-list and fat-tiddler routes by testing each route's `path` regex against known URLs (`/recipes/default/tiddlers.json` and `/recipes/default/tiddlers/SomeTitle`). It then replaces those array entries with new handler functions.
+
+!! Skinny vs fat tiddler routes
+
+* ''Skinny list'' (`GET /recipes/default/tiddlers.json`): returns all tiddler titles + fields (no body). The browser syncer polls this to detect changes.
+* ''Fat tiddler'' (`GET /recipes/default/tiddlers/:title`): returns a single tiddler with full body. The browser fetches this when it detects a change in the skinny list.
+
+Both routes are replaced to exclude tiddlers matched by inactive realm filters.
+
+!! CSRF validation
+
+TW's server requires `X-Requested-With: TiddlyWiki` header on mutating requests. This is enforced by the core HTTP server, not by individual routes. The `action-toggle.js` widget includes this header on PUT requests.
+
+!! Filter execution on the server
+
+`$tw.wiki.filterTiddlers(filter)` runs a TW filter expression server-side and returns matching titles. The realms plugin runs each inactive realm's filter per request to build the exclusion set.
+
+</$fill>
+</$transclude>

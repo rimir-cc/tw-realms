@@ -1,0 +1,38 @@
+created: 20260305110707532
+modified: 20260305110707532
+tags: $:/tags/Stylesheet
+title: $:/plugins/rimir/realms/styles
+type: text/vnd.tiddlywiki
+
+.rimir-realm-row {
+    padding: 4px 0;
+}
+
+.rimir-realm-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.rimir-realm-btn:hover {
+    background: #f0f0f0;
+}
+
+.rimir-realm-visible {
+    color: #333;
+}
+
+.rimir-realm-hidden {
+    color: #999;
+}
+
+.rimir-realm-catchall {
+    padding: 6px 8px;
+    color: #999;
+    font-style: italic;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 4px;
+}
+

@@ -1,0 +1,53 @@
+created: 20260305110707527
+modified: 20260305110707527
+rdt.order: 3
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: Dev Workflow
+title: $:/plugins/rimir/realms/doc/dev-workflow
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Plugin files
+
+|!File |!Role |
+|`startup.js` |Server-side: hook + route replacement + `getExcludedTitles()` |
+|`route-api-get.js` |Server-side: `GET /api/realms` |
+|`route-api-put.js` |Server-side: `PUT /api/realms` (merges `active` only) |
+|`action-toggle.js` |Browser-side: `<$action-realm-toggle>` widget (XHR + CSRF) |
+|`ui-startup.js` |Browser-side: fetches realm state into `$:/temp/rimir/realms` |
+|`ui.tid` |Control Panel > Settings > Realms UI |
+|`styles.tid` |CSS for settings UI |
+
+!! Restart rules
+
+|!Change |!Restart needed? |
+|`realms.json` active state |No — re-read per request |
+|`startup.js` / route files |Yes — JS modules |
+|Action/UI tiddlers |Yes — plugin shadow tiddlers |
+
+!! Debugging
+
+Check startup logs for "realms: ..." messages. Test with curl:
+
+* Check state: `curl http://localhost:8080/api/realms`
+* Tick (hide) a realm: `curl -X PUT -H "X-Requested-With: TiddlyWiki" -H "Content-Type: application/json" -d '{"realm-name": {"active": true}}' http://localhost:8080/api/realms`
+* Untick (show) a realm: `curl -X PUT -H "X-Requested-With: TiddlyWiki" -H "Content-Type: application/json" -d '{"realm-name": {"active": false}}' http://localhost:8080/api/realms`
+* Verify skinny list: `curl http://localhost:8080/recipes/default/tiddlers.json`
+* Verify fat tiddler 404 for ticked realm's tiddler
+
+!! Key gotchas
+
+* CSRF: PUT routes need `X-Requested-With: TiddlyWiki` header
+* Route matching: use `route.path.test(url)` not `.source` string comparison
+* TW `$checkbox` can't reflect JSON-backed state; use `$button` + `$reveal` + `jsonget`
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="tip">
+<$fill $name="body">On Windows, use `taskkill //F //PID <pid> //T` to kill the server.</$fill>
+</$transclude>
+
+</$fill>
+</$transclude>

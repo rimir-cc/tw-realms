@@ -1,0 +1,45 @@
+created: 20260305110707529
+modified: 20260305110707529
+rdt.hub-category: infrastructure
+rdt.hub-category-name: Infrastructure
+rdt.hub-order: 1
+rdt.order: 1
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: Overview
+title: $:/plugins/rimir/realms/doc/overview
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! What it does
+
+Subtract tiddler groups from the browser by ticking them. All tiddlers are visible by default; each ticked realm's filter removes matching tiddlers from the HTTP response. Server keeps all tiddlers in memory; filtering happens at the HTTP layer only.
+
+!! Features
+
+* Subtract model: all tiddlers visible by default, tick a realm to hide its tiddlers
+* Filter-based: each realm uses a TW filter expression to match tiddlers
+* HTTP-layer filtering: server keeps everything, browser only sees non-subtracted tiddlers
+* Live config: `realms.json` re-read per request — no restart for config changes
+* Browser UI: toggle realms in Control Panel > Settings > Realms (ticked = hidden, strikethrough)
+* API: GET/PUT endpoints for reading and updating realm state
+
+!! Prerequisites
+
+TW Node.js server mode, `realms.json` in wiki root.
+
+!! Quick start
+
+# Create `realms.json` with example realm definitions (by prefix, tag, etc.)
+# Start server
+# Toggle in Control Panel > Settings > Realms
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="info">
+<$fill $name="body">Normal tiddlers appear/disappear via syncer polling (~4-10s). System/shadow tiddlers require a full page reload.</$fill>
+</$transclude>
+
+</$fill>
+</$transclude>

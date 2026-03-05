@@ -1,0 +1,42 @@
+created: 20260305110707528
+modified: 20260305110707528
+rdt.order: 5
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: FAQ
+title: $:/plugins/rimir/realms/doc/faq
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Q: Why filter at the HTTP layer instead of the wiki store?
+
+If tiddlers were removed from `$tw.wiki`, server-side operations (filters, indexes, cross-references) would break. HTTP-layer filtering keeps all tiddlers available on the server while controlling what the browser sees.
+
+!! Q: What happens with overlapping realms?
+
+If a tiddler matches multiple active (ticked) realms, it is hidden. Realm exclusions are additive. There is no priority system — any single ticked realm that matches a tiddler will hide it.
+
+!! Q: Why not use $checkbox for the toggle UI?
+
+TW's `$checkbox` widget can't reflect state stored in a JSON field of a `$:/temp/` tiddler. The realms UI uses `$button` + `$reveal` + `jsonget` to read active state from the JSON-backed `$:/temp/rimir/realms` tiddler.
+
+!! Q: Do realm changes survive a server restart?
+
+Yes. `PUT /api/realms` writes the updated `active` state to `realms.json` on disk. The file persists across restarts.
+
+!! Q: How do I debug missing tiddlers?
+
+# Check `curl http://localhost:8080/api/realms` to see which realms are ticked (active = hidden)
+# Check if the missing tiddler matches a ticked realm's filter
+# Check `curl http://localhost:8080/recipes/default/tiddlers.json` to see if the tiddler appears in the skinny list
+# For system tiddlers, remember they require a full browser reload regardless of realms
+
+!! Q: Can I add a new realm without restarting?
+
+Yes. Edit `realms.json` directly — it is re-read on every request. No restart needed for config changes.
+
+</$fill>
+</$transclude>

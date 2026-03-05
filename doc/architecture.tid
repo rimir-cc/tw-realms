@@ -1,0 +1,52 @@
+created: 20260305110707526
+modified: 20260305110707526
+rdt.order: 2
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: Architecture
+title: $:/plugins/rimir/realms/doc/architecture
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! Core principle
+
+All tiddlers loaded into `$tw.wiki`, realm filtering only at HTTP layer.
+
+!! Data flow
+
+`realms.json` (disk) → `getExcludedTitles()` → runs each active (ticked) realm's TW filter → Set of excluded titles → skinny/fat tiddler routes skip excluded titles.
+
+!! Route replacement
+
+Uses `th-server-command-post-start` hook (after `--listen` fires) to replace:
+
+* `GET /recipes/default/tiddlers.json` (skinny list)
+* `GET /recipes/default/tiddlers/:title` (fat tiddler)
+
+!! Filter execution
+
+Per request: reads `realms.json`, runs filters for active (ticked) realms against full wiki, collects matched title set for exclusion.
+
+!! Components
+
+|!Component |!Layer |!Role |
+|`startup.js` |Server |Hook + route replacement + `getExcludedTitles()` |
+|`route-api-get.js` |Server |`GET /api/realms` — read config |
+|`route-api-put.js` |Server |`PUT /api/realms` — update active state |
+|`action-toggle.js` |Browser |`<$action-realm-toggle>` widget (XHR + CSRF) |
+|`ui-startup.js` |Browser |Fetches realm state into `$:/temp/rimir/realms` |
+|`ui.tid` |Browser |Control Panel settings UI |
+
+!! Config storage
+
+`realms.json` next to `tiddlywiki.info`, read per request (live), written by PUT (active field only), not a wiki tiddler.
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/callout" type="danger">
+<$fill $name="body">`exports.before = ["commands"]` is critical in `startup.js`. Without it, the hook registers after `--listen` fires and routes are never replaced.</$fill>
+</$transclude>
+
+</$fill>
+</$transclude>

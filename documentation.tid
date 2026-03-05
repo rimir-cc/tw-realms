@@ -1,0 +1,14 @@
+created: 20260305110707530
+modified: 20260305110707530
+title: $:/plugins/rimir/realms/documentation
+type: text/vnd.tiddlywiki
+
+<%if [[$:/plugins/rimir/doc-template]has[plugin-type]] %>
+<$tiddler tiddler="$:/plugins/rimir/realms/doc/overview">
+<$transclude $tiddler="$:/plugins/rimir/realms/doc/overview"/>
+</$tiddler>
+<%else%>
+To display this documentation, the plugin [[$:/plugins/rimir/doc-template]] needs to be installed.
+
+See the [[readme|$:/plugins/rimir/realms/readme]] tab for a basic overview.
+<%endif%>

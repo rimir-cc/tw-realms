@@ -1,0 +1,74 @@
+created: 20260305110707529
+modified: 20260305110707529
+rdt.order: 6
+rdt.plugin-key: realms
+rdt.plugin-name: realms
+rdt.plugin-subtitle: Toggle visibility of tiddler groups using filter expressions
+rdt.section: Reference
+title: $:/plugins/rimir/realms/doc/reference
+type: text/vnd.tiddlywiki
+
+<$transclude $tiddler="$:/plugins/rimir/doc-template/templates/page">
+<$fill $name="body">
+
+!! GET /api/realms
+
+Returns the full `realms.json` content as JSON. No parameters.
+
+```json
+{
+  "drafts": {"filter": "[tag[draft]]", "description": "Draft tiddlers", "active": true}
+}
+```
+
+!! PUT /api/realms
+
+Updates `active` state of existing realms. Requires CSRF header.
+
+|!Header |!Value |!Required |
+|`Content-Type` |`application/json` |Yes |
+|`X-Requested-With` |`TiddlyWiki` |Yes (CSRF) |
+
+Request body — only `active` is merged, unknown realm names are ignored:
+
+```json
+{"realm-name": {"active": false}}
+```
+
+|!HTTP |!Condition |
+|200 |Success — returns updated full realms object |
+|400 |Invalid JSON |
+|500 |File read/write failure |
+
+!! <$action-realm-toggle> widget
+
+|!Attribute |!Required |!Description |
+|`realm` |Yes |Realm name to toggle |
+
+Reads current state from `$:/temp/rimir/realms`, sends PUT, updates temp tiddler on success.
+
+!! realms.json schema
+
+```json
+{
+  "realm-name": {
+    "filter": "TW filter expression",
+    "description": "Human-readable label",
+    "active": true
+  }
+}
+```
+
+|!Field |!Type |!Description |
+|`filter` |string |TW filter run against `$tw.wiki` for active (ticked) realms |
+|`description` |string |Display label in settings UI |
+|`active` |boolean |`true` = tiddlers hidden (subtracted), `false` = tiddlers visible |
+
+!! State tiddlers
+
+|!Tiddler |!Type |!Set by |!Description |
+|`$:/temp/rimir/realms` |`application/json` |ui-startup.js, action-toggle.js |Full realms state |
+|`$:/temp/rimir/realms-changed` |text |action-toggle.js |Change signal (`"yes"`) |
+
+</$fill>
+</$transclude>
