@@ -1,7 +1,8 @@
 {
     "description": "Test edition for realms",
     "plugins": [
-        "tiddlywiki/jasmine"
+        "tiddlywiki/jasmine",
+        "rimir/realms"
     ],
     "themes": [
         "tiddlywiki/vanilla",
