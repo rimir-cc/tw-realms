@@ -9,9 +9,9 @@ type: text/vnd.tiddlywiki
   realmDesc={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[description]] }}}
   realmFilter={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[filter]] }}}
   statusText={{{ [<isActive>match[true]then[hidden]else[visible]] }}}
-  buttonClass={{{ [<isActive>match[true]then[tc-btn-invisible rimir-realm-btn rimir-realm-hidden]else[tc-btn-invisible rimir-realm-btn rimir-realm-visible]] }}}
+  buttonClass={{{ [<isActive>match[true]then[tc-btn-invisible rlm-btn rlm-hidden]else[tc-btn-invisible rlm-btn rlm-visible]] }}}
 >
-<div class="rimir-realm-row">
+<div class="rlm-row">
 <$button class=<<buttonClass>> actions="<$action-realm-toggle realm='$realmName$'/>">
   <$reveal type="match" default=<<isActive>> text="true" tag="span">&#9745; <del>''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></del></$reveal>
   <$reveal type="nomatch" default=<<isActive>> text="true" tag="span">&#9744; ''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></$reveal>
@@ -23,7 +23,7 @@ type: text/vnd.tiddlywiki
 
 All tiddlers are visible by default. Tick a realm to subtract its tiddlers. Changes take effect after a browser reload (non-system/non-`module-type`-tiddlers will be automatically refreshed after few seconds, if filesystem-watcher is also installed and active).
 
-<div class="rimir-realm-row rimir-realm-catchall">&#9745; ''all'' — everything not in a realm below //(always visible)//</div>
+<div class="rlm-row rlm-catchall">&#9745; ''all'' — everything not in a realm below //(always visible)//</div>
 
 <$list filter="[[$:/temp/rimir/realms]get[text]jsonindexes[]]" variable="realmName">
 <$macrocall $name="render-realm" realmName=<<realmName>>/>

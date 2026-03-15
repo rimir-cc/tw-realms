@@ -4,11 +4,11 @@ tags: $:/tags/Stylesheet
 title: $:/plugins/rimir/realms/styles
 type: text/vnd.tiddlywiki
 
-.rimir-realm-row {
+.rlm-row {
     padding: 4px 0;
 }
 
-.rimir-realm-btn {
+.rlm-btn {
     display: block;
     width: 100%;
     text-align: left;
@@ -16,23 +16,23 @@ type: text/vnd.tiddlywiki
     border-radius: 4px;
 }
 
-.rimir-realm-btn:hover {
-    background: #f0f0f0;
+.rlm-btn:hover {
+    background: <<colour tab-background>>;
 }
 
-.rimir-realm-visible {
-    color: #333;
+.rlm-visible {
+    color: <<colour foreground>>;
 }
 
-.rimir-realm-hidden {
-    color: #999;
+.rlm-hidden {
+    color: <<colour muted-foreground>>;
 }
 
-.rimir-realm-catchall {
+.rlm-catchall {
     padding: 6px 8px;
-    color: #999;
+    color: <<colour muted-foreground>>;
     font-style: italic;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid <<colour table-border>>;
     margin-bottom: 4px;
 }
 
