@@ -38,7 +38,7 @@ Per request: reads `realms.json`, runs filters for active (ticked) realms agains
 |`route-api-put.js` |Server |`PUT /api/realms` — update active state |
 |`action-toggle.js` |Browser |`<$action-realm-toggle>` widget (XHR + CSRF) |
 |`ui-startup.js` |Browser |Fetches realm state into `$:/temp/rimir/realms` |
-|`ui.tid` |Browser |Control Panel settings UI |
+|`settings.tid` |Browser |Control Panel settings UI |
 
 !! Config storage
 

@@ -19,7 +19,7 @@ type: text/vnd.tiddlywiki
 |`route-api-put.js` |Server-side: `PUT /api/realms` (merges `active` only) |
 |`action-toggle.js` |Browser-side: `<$action-realm-toggle>` widget (XHR + CSRF) |
 |`ui-startup.js` |Browser-side: fetches realm state into `$:/temp/rimir/realms` |
-|`ui.tid` |Control Panel > Settings > Realms UI |
+|`settings.tid` |Control Panel > Settings > Realms UI |
 |`styles.tid` |CSS for settings UI |
 
 !! Restart rules

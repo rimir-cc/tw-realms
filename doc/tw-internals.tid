@@ -30,7 +30,7 @@ TW stores routes in `server.routes` as an array. The plugin finds the skinny-lis
 * ''Skinny list'' (`GET /recipes/default/tiddlers.json`): returns all tiddler titles + fields (no body). The browser syncer polls this to detect changes.
 * ''Fat tiddler'' (`GET /recipes/default/tiddlers/:title`): returns a single tiddler with full body. The browser fetches this when it detects a change in the skinny list.
 
-Both routes are replaced to exclude tiddlers matched by inactive realm filters.
+Both routes are replaced to exclude tiddlers matched by active (ticked) realm filters.
 
 !! CSRF validation
 
@@ -38,7 +38,7 @@ TW's server requires `X-Requested-With: TiddlyWiki` header on mutating requests.
 
 !! Filter execution on the server
 
-`$tw.wiki.filterTiddlers(filter)` runs a TW filter expression server-side and returns matching titles. The realms plugin runs each inactive realm's filter per request to build the exclusion set.
+`$tw.wiki.filterTiddlers(filter)` runs a TW filter expression server-side and returns matching titles. The realms plugin runs each active (ticked) realm's filter per request to build the exclusion set.
 
 </$fill>
 </$transclude>
