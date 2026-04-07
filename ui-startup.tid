@@ -1,0 +1,13 @@
+created: 20260407120000000
+modified: 20260407120000000
+tags: $:/tags/StartupAction/Browser
+title: $:/plugins/rimir/realms/ui-startup
+type: text/vnd.tiddlywiki
+
+<$action-sendmessage $message="tm-http-request"
+  url="/api/realms"
+  method="GET"
+  oncompletion="""
+    <$action-setfield $tiddler="$:/temp/rimir/realms" type="application/json" text=<<data>>/>
+  """
+/>

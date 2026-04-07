@@ -3,7 +3,7 @@ modified: 20260305110707531
 title: $:/plugins/rimir/realms/settings
 type: text/vnd.tiddlywiki
 
-\define render-realm(realmName)
+\procedure render-realm(realmName)
 <$let
   isActive={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[active]] }}}
   realmDesc={{{ [[$:/temp/rimir/realms]get[text]jsonget<__realmName__>,[description]] }}}
@@ -12,9 +12,9 @@ type: text/vnd.tiddlywiki
   buttonClass={{{ [<isActive>match[true]then[tc-btn-invisible rlm-btn rlm-hidden]else[tc-btn-invisible rlm-btn rlm-visible]] }}}
 >
 <div class="rlm-row">
-<$button class=<<buttonClass>> actions="<$action-realm-toggle realm='$realmName$'/>">
-  <$reveal type="match" default=<<isActive>> text="true" tag="span">&#9745; <del>''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></del></$reveal>
-  <$reveal type="nomatch" default=<<isActive>> text="true" tag="span">&#9744; ''$realmName$'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></$reveal>
+<$button class=<<buttonClass>> actions="<$action-realm-toggle realm='<<realmName>>'/>">
+  <$reveal type="match" default=<<isActive>> text="true" tag="span">&#9745; <del>''<<realmName>>'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></del></$reveal>
+  <$reveal type="nomatch" default=<<isActive>> text="true" tag="span">&#9744; ''<<realmName>>'' — <$text text=<<realmDesc>>/> — <code><$text text=<<realmFilter>>/></code></$reveal>
   //(<$text text=<<statusText>>/>)//
 </$button>
 </div>

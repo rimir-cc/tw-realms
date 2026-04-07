@@ -6,6 +6,7 @@ type: text/vnd.tiddlywiki
 ! Changelog
 
 |!Version |!Date |!Changes |
+|0.1.6 |2026-04-07 |Cleanup: replace \define with \procedure/\function, convert JS ui-startup to wikitext StartupAction, fix $param$ substitution |
 |v0.1.5 |2026-03-28 |Fix doc references: ui.tid → settings.tid, inactive → active in tw-internals |
 |v0.1.4 |2026-03-15 |Shorten CSS prefix rimir-realm to rlm, replace hardcoded colors with theme palette |
 |v0.1.3 |2026-03-15 |Add name field to plugin.info |
