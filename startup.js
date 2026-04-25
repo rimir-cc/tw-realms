@@ -60,20 +60,25 @@ exports.startup = function() {
 	$tw.hooks.addHook("th-server-command-post-start", function(server, nodeServer) {
 		logger.log("Hooking into server routes for realm filtering");
 
-		// Find and replace routes by matching path regex source
+		// Find and replace routes by matching path regex source.
+		// TW 5.4.0 switched route modules from `method: "GET"` to `methods: ["GET"]`;
+		// match either shape.
 		var routes = server.routes;
+		function isGet(route) {
+			return route.method === "GET" || (route.methods && route.methods.indexOf("GET") !== -1);
+		}
 		for(var i = 0; i < routes.length; i++) {
 			var route = routes[i];
-			if(route.method === "GET" && route.path.test("/recipes/default/tiddlers.json")) {
+			if(isGet(route) && route.path.test("/recipes/default/tiddlers.json")) {
 				routes[i] = {
-					method: "GET",
+					methods: ["GET"],
 					path: route.path,
 					handler: createFilteredSkinnyHandler()
 				};
 				logger.log("Replaced skinny-list route (get-tiddlers-json)");
-			} else if(route.method === "GET" && route.path.test("/recipes/default/tiddlers/SomeTitle")) {
+			} else if(isGet(route) && route.path.test("/recipes/default/tiddlers/SomeTitle")) {
 				routes[i] = {
-					method: "GET",
+					methods: ["GET"],
 					path: route.path,
 					handler: createFilteredFatHandler()
 				};
