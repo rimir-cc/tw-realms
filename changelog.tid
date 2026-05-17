@@ -6,6 +6,7 @@ type: text/vnd.tiddlywiki
 ! Changelog
 
 |!Version |!Date |!Changes |
+|v0.1.9 |2026-05-17 |Test coverage push: 7 new HTTP-level specs for `GET /api/realms` (reads `realms.json`; 500 when file missing) and `PUT /api/realms` (merges `{active}` updates for existing realms; accepts string `"true"`/`"false"`; ignores unknown realm names; ignores non-object realm bodies; rejects invalid JSON with 400). Plugin coverage 19.3% → 36.1% lines / 5% → 15% functions. Remaining residuals are `startup.js` (server boot hook — Tier D) and `action-toggle.js` (browser-side XHR — Tier D). |
 |v0.1.8 |2026-04-27 |Declare `doc-template` as soft-dependent in plugin.info |
 |v0.1.7 |2026-04-25 |TW 5.4.0 compat: route-replacement loop now matches `methods: ["GET"]` array and the legacy `method: "GET"` string. Replacements emit the new `methods` shape |
 |0.1.6 |2026-04-07 |Cleanup: replace \define with \procedure/\function, convert JS ui-startup to wikitext StartupAction, fix $param$ substitution |
